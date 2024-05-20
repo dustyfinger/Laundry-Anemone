@@ -1,0 +1,125 @@
+import psycopg2
+
+# Fungsi register owner
+def register_owner():
+    conn = psycopg2.connect(database='anemonev3', user='postgres', password='321', host='localhost', port=5432)
+    cur = conn.cursor()
+    nama = input('Masukkan nama owner: ')
+    nomor = input('Masukkan nomor hp: ')
+    jabatan = input('Masukkan jabatan (owner/karyawan/admin/kurir): ')
+    username = input('Masukkan username: ')
+    password = input('Masukkan password: ')
+    query = 'INSERT INTO pegawai (nama, nomor, jabatan, username, password) VALUES (%s, %s, %s, %s, %s)'
+    cur.execute(query, (nama, nomor, jabatan, username, password))
+    conn.commit()
+    cur.close()
+    conn.close()
+    print('Owner berhasil didaftarkan!')
+
+# Fungsi login owner
+def login_owner():
+    conn = psycopg2.connect(database='anemonev3', user='postgres', password='321', host='localhost', port=5432)
+    cur = conn.cursor()
+    username = input('Masukkan username: ')
+    password = input('Masukkan password: ')
+    query = 'SELECT * FROM pegawai WHERE username = %s AND password = %s'
+    cur.execute(query, (username, password))
+    login_owner = cur.fetchone()
+    cur.close()
+    conn.close()
+    if login_owner:
+        print("Login berhasil!")
+        return login_owner
+    else:
+        print("Username atau password salah!")
+        return None
+
+# Fungsi lihat data pelanggan
+def lihat_pelanggan():
+    conn = psycopg2.connect(database='anemonev3', user='postgres', password='321', host='localhost', port=5432)
+    cur = conn.cursor()
+    query = "SELECT * FROM pelanggan"
+    cur.execute(query)
+    pelanggan = cur.fetchall()
+    cur.close()
+    conn.close()
+    for i in pelanggan:
+        print(i)
+
+# Fungsi tambah akun admin
+def tambah_pegawai():
+    conn = psycopg2.connect(database='anemonev3', user='postgres', password='321', host='localhost', port=5432)
+    cur = conn.cursor()
+    nama = input('Masukkan nama admin : ')
+    nomor = input('Masukkan nomor admin : ')
+    jabatan = input('Masukkan jabatan (owner/karyawan/admin/kurir) : ')
+    alamat = input('Masukkan alamat : ')
+    pw = input('Masukkan password: ')
+    query = 'INSERT INTO pegawai (nama, nomor, jabatan, alamat, password) VALUES (%s, %s, %s, %s, %s)'
+    cur.execute(query, (nama, nomor, jabatan, alamat, pw))
+    conn.commit()
+    cur.close()
+    conn.close()
+    print('Data admin berhasil ditambahkan')
+
+# Fungsi lihat seluruh transaksi
+def lihat_transaksi():
+    conn = psycopg2.connect(database='anemonev3', user='postgres', password='321', host='localhost', port=5432)
+    cur = conn.cursor()
+    query = "SELECT * FROM transaksi"
+    cur.execute(query)
+    transaksi = cur.fetchall()
+    cur.close()
+    conn.close()
+    for transaction in transaksi:
+        print(transaction)
+
+# Fungsi lihat data pegawai
+def lihat_pegawai():
+    conn = psycopg2.connect(database='anemonev3', user='postgres', password='321', host='localhost', port=5432)
+    cur = conn.cursor()
+    query = "SELECT * FROM pegawai"
+    cur.execute(query)
+    pegawai = cur.fetchall()
+    cur.close()
+    conn.close()
+    for i in pegawai:
+        print(i)
+
+# Fungsi logout
+def logout():
+    print("Anda telah log out")
+
+# Fungsi menu utama
+def menu():
+    while True:
+        print('\nSelamat Datang Owner!')
+        print('1. Register')
+        print('2. Login')
+        print('3. Lihat Data Customer')
+        print('4. Tambahkan Akun Admin Baru')
+        print('5. Lihat Data Transaksi')
+        print('6. Log Out')
+        pilihan = input("Masukkan menu yang dipilih:")
+
+        if pilihan == '1':
+            register_owner()
+        elif pilihan == '2':
+            if login_owner():
+                print("Login berhasil!")
+            else:
+                print("Masukkan username dan password yang sesuai")
+        elif pilihan == '3':
+            lihat_pelanggan()
+        elif pilihan == '4':
+            tambah_pegawai()
+        elif pilihan == '5':
+            lihat_transaksi()
+        elif pilihan == '6':
+            logout()
+            break
+        else:
+            print("Pilihan tidak valid, silahkan pilih menu yang tersedia")
+
+# Jalankan menu utama
+menu()
