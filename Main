@@ -1,3 +1,4 @@
+
 def menuAdmin():
     while True:
         print('\nSelamat Datang Admin ! ')
@@ -27,4 +28,32 @@ def menuAdmin():
             break
         else:
             print("Pilihan tidak valid, silakan pilih angka 1 sampai 6")
+def menu():
+    while True:
+        print('\nSelamat Datang Owner!')
+        print('1. Register')
+        print('2. Login')
+        print('3. Lihat Data Customer')
+        print('4. Tambahkan Akun Admin Baru')
+        print('5. Lihat Data Transaksi')
+        print('6. Log Out')
+        pilihan = input("Masukkan menu yang dipilih:")
 
+        if pilihan == '1':
+            register_owner()
+        elif pilihan == '2':
+            login_owner()
+        elif pilihan == '3':
+            lihat_pelanggan()
+        elif pilihan == '4':
+            tambah_pegawai()
+        elif pilihan == '5':
+            lihat_transaksi()
+        elif pilihan == '6':
+            logout()
+            break
+        else:
+            print("Pilihan tidak valid, silahkan pilih menu yang tersedia")
+
+# Jalankan menu utama
+menu()
