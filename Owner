@@ -1,8 +1,16 @@
 import psycopg2
+def get_connection():
+    return psycopg2.connect(
+        database='Anemone Abangkuh', 
+        user='postgres', 
+        password='mega1234', 
+        host='localhost', 
+        port='5432'
+    )
 
 # Fungsi register owner
 def register_owner():
-    conn = psycopg2.connect(database='anemonev3', user='postgres', password='321', host='localhost', port=5432)
+    conn = get_connection()
     cur = conn.cursor()
     nama = input('Masukkan nama owner: ')
     nomor = input('Masukkan nomor hp: ')
@@ -18,7 +26,7 @@ def register_owner():
 
 # Fungsi login owner
 def login_owner():
-    conn = psycopg2.connect(database='anemonev3', user='postgres', password='321', host='localhost', port=5432)
+    conn = get_connection()
     cur = conn.cursor()
     username = input('Masukkan username: ')
     password = input('Masukkan password: ')
@@ -29,14 +37,13 @@ def login_owner():
     conn.close()
     if login_owner:
         print("Login berhasil!")
-        return login_owner
     else:
         print("Username atau password salah!")
         return None
 
 # Fungsi lihat data pelanggan
 def lihat_pelanggan():
-    conn = psycopg2.connect(database='anemonev3', user='postgres', password='321', host='localhost', port=5432)
+    conn = get_connection()
     cur = conn.cursor()
     query = "SELECT * FROM pelanggan"
     cur.execute(query)
@@ -48,7 +55,7 @@ def lihat_pelanggan():
 
 # Fungsi tambah akun admin
 def tambah_pegawai():
-    conn = psycopg2.connect(database='anemonev3', user='postgres', password='321', host='localhost', port=5432)
+    conn = get_connection()
     cur = conn.cursor()
     nama = input('Masukkan nama admin : ')
     nomor = input('Masukkan nomor admin : ')
@@ -64,7 +71,7 @@ def tambah_pegawai():
 
 # Fungsi lihat seluruh transaksi
 def lihat_transaksi():
-    conn = psycopg2.connect(database='anemonev3', user='postgres', password='321', host='localhost', port=5432)
+    conn = get_connection()
     cur = conn.cursor()
     query = "SELECT * FROM transaksi"
     cur.execute(query)
@@ -76,7 +83,7 @@ def lihat_transaksi():
 
 # Fungsi lihat data pegawai
 def lihat_pegawai():
-    conn = psycopg2.connect(database='anemonev3', user='postgres', password='321', host='localhost', port=5432)
+    conn = get_connection()
     cur = conn.cursor()
     query = "SELECT * FROM pegawai"
     cur.execute(query)
@@ -105,10 +112,7 @@ def menu():
         if pilihan == '1':
             register_owner()
         elif pilihan == '2':
-            if login_owner():
-                print("Login berhasil!")
-            else:
-                print("Masukkan username dan password yang sesuai")
+            login_owner()
         elif pilihan == '3':
             lihat_pelanggan()
         elif pilihan == '4':
