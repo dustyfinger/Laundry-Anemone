@@ -2,7 +2,7 @@ import psycopg2
 
 def get_connection():
     return psycopg2.connect(
-        database='Laundry Anemone', 
+        database='Anemone Abangkuh', 
         user='postgres', 
         password='mega1234', 
         host='localhost', 
