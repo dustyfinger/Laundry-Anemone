@@ -1,1 +1,30 @@
+def menuAdmin():
+    while True:
+        print('\nSelamat Datang Admin ! ')
+        print('1. Login')
+        print('2. Lihat Data Customer')
+        print('3. Edit Data Customer')
+        print('4. Lihat Data Transaksi')
+        print('5. Edit Data Transaksi')
+        print('6. Logout')
+        pilihan = input('Pilih menu: ')
+
+        if pilihan == '1':
+            if login_admin():
+                print("Login sukses, lanjutkan ke menu berikutnya.")
+            else:
+                print("Login gagal, coba lagi.")
+        elif pilihan == '2':
+            lihat_pelanggan()
+        elif pilihan == '3':
+            edit_customer_data_by_admin()
+        elif pilihan == '4':
+            view_all_transactions()
+        elif pilihan == '5':
+            edit_transaksi()
+        elif pilihan == '6':
+            logout()
+            break
+        else:
+            print("Pilihan tidak valid, silakan pilih angka 1 sampai 6")
 
