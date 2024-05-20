@@ -1,0 +1,111 @@
+import psycopg2
+
+def get_connection():
+    return psycopg2.connect(
+        database='Laundry Anemone', 
+        user='postgres', 
+        password='mega1234', 
+        host='localhost', 
+        port='5432'
+    )
+
+def login_admin():
+    conn = get_connection()
+    cur = conn.cursor()
+    username = input("Username: ")
+    password = input("Password: ")
+    query = "SELECT * FROM pegawai WHERE username = %s AND password = %s"
+    cur.execute(query, (username, password))
+    admin = cur.fetchone()
+    cur.close()
+    conn.close()
+    if admin:
+        print("Login berhasil!")
+        return admin
+    else:
+        print("Username atau password salah!")
+        return None
+
+
+def lihat_pelanggan():
+    conn = get_connection()
+    cur = conn.cursor()
+    query = "SELECT * FROM pelanggan"
+    cur.execute(query)
+    pelanggan = cur.fetchall()
+    cur.close()
+    conn.close()
+    for i in pelanggan:
+        print(i)
+
+def edit_customer_data_by_admin():
+    customer_id = input("Masukkan ID customer yang ingin diedit: ")
+    conn = get_connection()
+    cur = conn.cursor()
+    nama = input("Nama baru: ")
+    nomor = input("Nomor baru: ")
+    alamat = input("Alamat baru: ")
+    query = "UPDATE customer SET nama = %s, nomor = %s, alamat = %s WHERE id = %s"
+    cur.execute(query, (nama, nomor, alamat, customer_id))
+    conn.commit()
+    cur.close()
+    conn.close()
+    print("Data customer berhasil diperbarui!")
+
+def view_all_transactions():
+    conn = get_connection()
+    cur = conn.cursor()
+    query = "SELECT * FROM transaksi"
+    cur.execute(query)
+    transaksi = cur.fetchall()
+    cur.close()
+    conn.close()
+    for transaction in transaksi:
+        print(transaction)
+
+def edit_transaksi():
+    transaction_id = input("Masukkan ID transaksi yang ingin diedit: ")
+    conn = get_connection()
+    cur = conn.cursor()
+    berat = float(input("Masukkan berat baru: "))
+    query = "UPDATE transaksi SET berat = %s WHERE id = %s"
+    cur.execute(query, (berat, transaction_id))
+    conn.commit()
+    cur.close()
+    conn.close()
+    print("Data transaksi berhasil diperbarui!")
+
+def logout():
+    print("Anda telah log out.")
+
+def menuAdmin():
+    while True:
+        print('\nSelamat Datang Admin ! ')
+        print('1. Login')
+        print('2. Lihat Data Customer')
+        print('3. Edit Data Customer')
+        print('4. Lihat Data Transaksi')
+        print('5. Edit Data Transaksi')
+        print('6. Logout')
+        pilihan = input('Pilih menu: ')
+
+        if pilihan == '1':
+            if login_admin():
+                print("Login sukses, lanjutkan ke menu berikutnya.")
+            else:
+                print("Login gagal, coba lagi.")
+        elif pilihan == '2':
+            lihat_pelanggan()
+        elif pilihan == '3':
+            edit_customer_data_by_admin()
+        elif pilihan == '4':
+            view_all_transactions()
+        elif pilihan == '5':
+            edit_transaksi()
+        elif pilihan == '6':
+            logout()
+            break
+        else:
+            print("Pilihan tidak valid, silakan pilih angka 1 sampai 6")
+
+menuAdmin()
