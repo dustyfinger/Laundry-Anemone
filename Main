@@ -1,3 +1,5 @@
+import admin as ad, owner as ow 
+from tabulate import tabulate
 
 def menuAdmin():
     while True:
@@ -28,7 +30,8 @@ def menuAdmin():
             break
         else:
             print("Pilihan tidak valid, silakan pilih angka 1 sampai 6")
-def menu():
+
+def menuowner():
     while True:
         print('\nSelamat Datang Owner!')
         print('1. Register')
@@ -54,6 +57,20 @@ def menu():
             break
         else:
             print("Pilihan tidak valid, silahkan pilih menu yang tersedia")
-
-# Jalankan menu utama
-menu()
+def main():
+    while True:
+        print('\nSelamat Datang!')
+        print('1. Masuk sebagai owner')
+        print('2. Masuk sebagai admin')
+        print('3. Masuk sebagai customer')
+        masuk = input(f'Pilih opsi di atas : ')
+        
+        if masuk == '1':
+            menuowner()
+        elif masuk == '2':
+            menuAdmin()
+        elif masuk == '3':
+            pass
+        else:
+            print("Pilihan tidak valid, silakan pilih angka 1 sampai 3")
+main()
