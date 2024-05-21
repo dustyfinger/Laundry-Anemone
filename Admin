@@ -4,7 +4,7 @@ def get_connection():
     return psycopg2.connect(
         database='Anemone Abangkuh', 
         user='postgres', 
-        password='mega1234', 
+        password='password', 
         host='localhost', 
         port='5432'
     )
@@ -26,7 +26,6 @@ def login_admin():
         print("Username atau password salah!")
         return None
 
-
 def lihat_pelanggan():
     conn = get_connection()
     cur = conn.cursor()
@@ -38,21 +37,21 @@ def lihat_pelanggan():
     for i in pelanggan:
         print(i)
 
-def edit_customer_data_by_admin():
-    customer_id = input("Masukkan ID customer yang ingin diedit: ")
+def edit_data_pelanggan():
+    pelanggan_id = input("Masukkan ID customer yang ingin diedit: ")
     conn = get_connection()
     cur = conn.cursor()
     nama = input("Nama baru: ")
     nomor = input("Nomor baru: ")
     alamat = input("Alamat baru: ")
-    query = "UPDATE customer SET nama = %s, nomor = %s, alamat = %s WHERE id = %s"
-    cur.execute(query, (nama, nomor, alamat, customer_id))
+    query = "UPDATE customer SET nama = %s, nomor = %s, alamat = %s WHERE id_pelanggan = %s"
+    cur.execute(query, (nama, nomor, alamat, pelanggan_id))
     conn.commit()
     cur.close()
     conn.close()
     print("Data customer berhasil diperbarui!")
 
-def view_all_transactions():
+def lihat_transaksi():
     conn = get_connection()
     cur = conn.cursor()
     query = "SELECT * FROM transaksi"
@@ -68,7 +67,7 @@ def edit_transaksi():
     conn = get_connection()
     cur = conn.cursor()
     berat = float(input("Masukkan berat baru: "))
-    query = "UPDATE transaksi SET berat = %s WHERE id = %s"
+    query = "UPDATE transaksi SET berat = %s WHERE id_transaksi = %s"
     cur.execute(query, (berat, transaction_id))
     conn.commit()
     cur.close()
@@ -78,17 +77,17 @@ def edit_transaksi():
 def logout():
     print("Anda telah log out.")
 
+
 def menuAdmin():
     while True:
         print('\nSelamat Datang Admin ! ')
         print('1. Login')
-        print('2. Lihat Data Customer')
-        print('3. Edit Data Customer')
+        print('2. Lihat Data Pelanggan')
+        print('3. Edit Data Pelanggan')
         print('4. Lihat Data Transaksi')
         print('5. Edit Data Transaksi')
         print('6. Logout')
         pilihan = input('Pilih menu: ')
-
         if pilihan == '1':
             if login_admin():
                 print("Login sukses, lanjutkan ke menu berikutnya.")
@@ -97,9 +96,9 @@ def menuAdmin():
         elif pilihan == '2':
             lihat_pelanggan()
         elif pilihan == '3':
-            edit_customer_data_by_admin()
+            edit_data_pelanggan()
         elif pilihan == '4':
-            view_all_transactions()
+            lihat_transaksi()
         elif pilihan == '5':
             edit_transaksi()
         elif pilihan == '6':
