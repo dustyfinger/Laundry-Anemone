@@ -1,62 +1,6 @@
-import admin as ad, owner as ow 
-from tabulate import tabulate
+import Anemone_Admin as ad
+import Anemone_Owner as ow
 
-def menuAdmin():
-    while True:
-        print('\nSelamat Datang Admin ! ')
-        print('1. Login')
-        print('2. Lihat Data Customer')
-        print('3. Edit Data Customer')
-        print('4. Lihat Data Transaksi')
-        print('5. Edit Data Transaksi')
-        print('6. Logout')
-        pilihan = input('Pilih menu: ')
-
-        if pilihan == '1':
-            if login_admin():
-                print("Login sukses, lanjutkan ke menu berikutnya.")
-            else:
-                print("Login gagal, coba lagi.")
-        elif pilihan == '2':
-            lihat_pelanggan()
-        elif pilihan == '3':
-            edit_customer_data_by_admin()
-        elif pilihan == '4':
-            view_all_transactions()
-        elif pilihan == '5':
-            edit_transaksi()
-        elif pilihan == '6':
-            logout()
-            break
-        else:
-            print("Pilihan tidak valid, silakan pilih angka 1 sampai 6")
-
-def menuowner():
-    while True:
-        print('\nSelamat Datang Owner!')
-        print('1. Register')
-        print('2. Login')
-        print('3. Lihat Data Customer')
-        print('4. Tambahkan Akun Admin Baru')
-        print('5. Lihat Data Transaksi')
-        print('6. Log Out')
-        pilihan = input("Masukkan menu yang dipilih:")
-
-        if pilihan == '1':
-            register_owner()
-        elif pilihan == '2':
-            login_owner()
-        elif pilihan == '3':
-            lihat_pelanggan()
-        elif pilihan == '4':
-            tambah_pegawai()
-        elif pilihan == '5':
-            lihat_transaksi()
-        elif pilihan == '6':
-            logout()
-            break
-        else:
-            print("Pilihan tidak valid, silahkan pilih menu yang tersedia")
 def main():
     while True:
         print('\nSelamat Datang!')
@@ -66,11 +10,11 @@ def main():
         masuk = input(f'Pilih opsi di atas : ')
         
         if masuk == '1':
-            menuowner()
+            ow.menuOw()
         elif masuk == '2':
-            menuAdmin()
-        elif masuk == '3':
-            pass
+            ad.menuAdmin()
+        # elif masuk == '3':
+        #     comingsoon
         else:
             print("Pilihan tidak valid, silakan pilih angka 1 sampai 3")
 main()
