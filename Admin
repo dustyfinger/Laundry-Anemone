@@ -60,8 +60,20 @@ def lihat_transaksi():
     transaksi = cur.fetchall()
     cur.close()
     conn.close()
+    
+    formatted_transaksi = []
     for transaction in transaksi:
+        formatted_transaction = tuple(
+            elem.strftime("%Y-%m-%d") 
+            if isinstance(elem, dt.date) 
+            else elem
+            for elem in transaction
+        )
+        formatted_transaksi.append(formatted_transaction)
+
+    for transaction in formatted_transaksi:
         print(transaction)
+
 
 def edit_transaksi():
     transaction_id = input("Masukkan ID transaksi yang ingin diedit: ")
