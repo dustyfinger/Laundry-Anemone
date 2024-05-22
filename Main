@@ -1,6 +1,7 @@
-import Anemone_Admin as ad
-import Anemone_Owner as ow
-
+# import Anemone_Admin as ad
+# import Anemone_Owner as ow
+from Admin import login_admin
+from Owner import login_owner
 
 def main():
     while True:
@@ -11,9 +12,9 @@ def main():
         masuk = input(f'Pilih opsi di atas : ')
         
         if masuk == '1':
-            ow.menuOw()
+            login_admin
         elif masuk == '2':
-            ad.menuAdmin()
+            login_owner
         # elif masuk == '3':
         #     comingsoon
         else:
