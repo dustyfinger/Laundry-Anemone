@@ -1,10 +1,11 @@
 import psycopg2
+import datetime as dt
 
 def get_connection():
     return psycopg2.connect(
         database='Anemone Abangkuh', 
         user='postgres', 
-        password='password', 
+        password='mega1234', 
         host='localhost', 
         port='5432'
     )
@@ -67,7 +68,7 @@ def edit_transaksi():
     conn = get_connection()
     cur = conn.cursor()
     berat = float(input("Masukkan berat baru: "))
-    query = "UPDATE transaksi SET berat = %s WHERE id_transaksi = %s"
+    query = "UPDATE transaksi SET ttl_brt = %s WHERE id_transaksi = %s"
     cur.execute(query, (berat, transaction_id))
     conn.commit()
     cur.close()
@@ -79,30 +80,29 @@ def logout():
 
 
 def menuAdmin():
-    while True:
         print('\nSelamat Datang Admin ! ')
-        print('1. Login')
-        print('2. Lihat Data Pelanggan')
-        print('3. Edit Data Pelanggan')
-        print('4. Lihat Data Transaksi')
-        print('5. Edit Data Transaksi')
-        print('6. Logout')
-        pilihan = input('Pilih menu: ')
-        if pilihan == '1':
-            if login_admin():
-                print("Login sukses, lanjutkan ke menu berikutnya.")
+        login_admin()
+        # break 
+        while True:
+            print("Lanjutkan ke menu berikutnya.")
+            print('1. Lihat Data Pelanggan')
+            print('2. Edit Data Pelanggan')
+            print('3. Lihat Data Transaksi')
+            print('4. Edit Data Transaksi')
+            print('5. Logout')
+            pilihan = input('Pilih menu 1 - 5 : ')
+            
+            if pilihan == '1':
+                lihat_pelanggan()
+            elif pilihan == '2':
+                edit_data_pelanggan()
+            elif pilihan == '3':
+                lihat_transaksi()
+            elif pilihan == '4':
+                edit_transaksi()
+            elif pilihan == '5':
+                logout()
             else:
-                print("Login gagal, coba lagi.")
-        elif pilihan == '2':
-            lihat_pelanggan()
-        elif pilihan == '3':
-            edit_data_pelanggan()
-        elif pilihan == '4':
-            lihat_transaksi()
-        elif pilihan == '5':
-            edit_transaksi()
-        elif pilihan == '6':
-            logout()
-            break
-        else:
-            print("Pilihan tidak valid, silakan pilih angka 1 sampai 6")
+                print("Pilihan tidak valid, silakan pilih angka 1 sampai 5")
+
+menuAdmin()
