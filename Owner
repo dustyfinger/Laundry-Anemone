@@ -124,6 +124,3 @@ def menu():
             break
         else:
             print("Pilihan tidak valid, silahkan pilih menu yang tersedia")
-
-# Jalankan menu utama
-menu()
