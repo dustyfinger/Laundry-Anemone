@@ -106,5 +106,3 @@ def menuAdmin():
             break
         else:
             print("Pilihan tidak valid, silakan pilih angka 1 sampai 6")
-
-menuAdmin()
