@@ -1,28 +1,13 @@
 import psycopg2
 def get_connection():
     return psycopg2.connect(
-        database='Anemone Abangkuh', 
+        database='anemonee', 
         user='postgres', 
-        password='mega1234', 
+        password='!nurarE4', 
         host='localhost', 
         port='5432'
     )
 
-# Fungsi register owner
-def register_owner():
-    conn = get_connection()
-    cur = conn.cursor()
-    nama = input('Masukkan nama owner: ')
-    nomor = input('Masukkan nomor hp: ')
-    jabatan = input('Masukkan jabatan (owner/karyawan/admin/kurir): ')
-    username = input('Masukkan username: ')
-    password = input('Masukkan password: ')
-    query = 'INSERT INTO pegawai (nama, nomor, jabatan, username, password) VALUES (%s, %s, %s, %s, %s)'
-    cur.execute(query, (nama, nomor, jabatan, username, password))
-    conn.commit()
-    cur.close()
-    conn.close()
-    print('Owner berhasil didaftarkan!')
 
 # Fungsi login owner
 def login_owner():
@@ -37,6 +22,7 @@ def login_owner():
     conn.close()
     if login_owner:
         print("Login berhasil!")
+        menuowner()
     else:
         print("Username atau password salah!")
         return None
@@ -73,7 +59,17 @@ def tambah_pegawai():
 def lihat_transaksi():
     conn = get_connection()
     cur = conn.cursor()
-    query = "SELECT * FROM transaksi"
+    query = '''
+    select t.ttl_diterima, t.ttl_selesai, t.ttl_brt, t.subtotal, t.catatan, 
+    p.nama as nama_pelanggan, pe.nama as nama_pegawai, mtd.tipe_pembayaran, prfm.nama as nama_parfum, 
+    dtl.harga, pkt.nama as paket_laundry, lyn.nama as layanan_laundry from transaksi t 
+    join pelanggan p on (p.id_pelanggan = t.pelanggan_id_pelanggan) 
+    join pegawai pe on (pe.id_pegawai = t.pegawai_id_pegawai) 
+    join mtd_bayar mtd on (mtd.id_pembayaran = t.mtd_bayar_id_pembayaran) 
+    join jenis_parfum prfm on (prfm.id_parfum = t.jenis_parfum_id_parfum) 
+    join detail_layanan dtl on (dtl.id_detail = t.detail_layanan_id_detail) 
+    join jenis_paket pkt on (pkt.id_pencucian = dtl.jenis_paket_id_pencucian)
+    join layanan_laundry lyn on (lyn.id_layanan = dtl.layanan_laundry_id_layanan)'''
     cur.execute(query)
     transaksi = cur.fetchall()
     cur.close()
@@ -98,28 +94,29 @@ def logout():
     print("Anda telah log out")
 
 # Fungsi menu utama
-def menu():
+def masukowner():
     while True:
         print('\nSelamat Datang Owner!')
-        print('1. Register')
-        print('2. Login')
-        print('3. Lihat Data Customer')
-        print('4. Tambahkan Akun Admin Baru')
-        print('5. Lihat Data Transaksi')
-        print('6. Log Out')
+        login_owner()
+        break
+
+# Fungsi menu owner
+def menuowner():
+    while True:
+        print('1. Lihat Data Customer')
+        print('2. Tambahkan Akun Admin Baru')
+        print('3. Lihat Data Transaksi')
+        print('4. Log Out')
         pilihan = input("Masukkan menu yang dipilih:")
 
+
         if pilihan == '1':
-            register_owner()
-        elif pilihan == '2':
-            login_owner()
-        elif pilihan == '3':
             lihat_pelanggan()
-        elif pilihan == '4':
+        elif pilihan == '2':
             tambah_pegawai()
-        elif pilihan == '5':
+        elif pilihan == '3':
             lihat_transaksi()
-        elif pilihan == '6':
+        elif pilihan == '4':
             logout()
             break
         else:
